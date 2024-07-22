@@ -7,26 +7,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_categorias")
-public class Categoria {
+@Table(name = "tb_produtos")
+public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String nome;
 
     private String descricao;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("categoria")
-    private Set<Produto> produtos;
+    @Column(nullable = false)
+    private float preco;
+
+    @ManyToOne
+    @JsonIgnoreProperties("produtos")
+    private Categoria categoria;
+
 }
